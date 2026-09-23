@@ -1,0 +1,58 @@
+name: payment_app
+description: Aplicación de pagos con soporte para modo offline y sincronización de transacciones.
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.6.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^9.1.0
+  drift: ^2.26.0
+  sqlite3_flutter_libs: ^0.5.32
+  path_provider: ^2.1.5
+  path: ^1.9.1
+  connectivity_plus: ^6.1.4
+  dio: ^5.8.0
+  get_it: ^8.0.3
+  dartz: ^0.10.1
+  uuid: ^4.5.1
+  equatable: ^2.0.7
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  drift_dev: ^2.26.0
+  build_runner: ^2.4.15
+  mocktail: ^1.0.4
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+# Configuración para generación de código con drift
+# Ejecutar: flutter pub run build_runner build
+
+drift:
+  sqlite:
+    queries:
+      pending_transactions: |
+        CREATE TABLE pending_transactions (
+          id TEXT PRIMARY KEY,
+          amount REAL NOT NULL,
+          recipient TEXT NOT NULL,
+          timestamp INTEGER NOT NULL,
+          sync_status TEXT NOT NULL,
+          idempotency_key TEXT NOT NULL
+        );
+      transactions: |
+        CREATE TABLE transactions (
+          id TEXT PRIMARY KEY,
+          amount REAL NOT NULL,
+          recipient TEXT NOT NULL,
+          timestamp INTEGER NOT NULL,
+          sync_status TEXT NOT NULL
+        );
